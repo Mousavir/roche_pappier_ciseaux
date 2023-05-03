@@ -1,6 +1,6 @@
 from enum import Enum
 import arcade
-
+#commit
 class AttackType(Enum):
    """
    Simple énumération pour représenter les différents types d'attaques.

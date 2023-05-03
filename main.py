@@ -34,6 +34,7 @@ class MyGame(arcade.Window):
    ATTACK_FRAME_WIDTH = 154 / 2
    ATTACK_FRAME_HEIGHT = 154 / 2
 
+#ccmmit
    def __init__(self, width, height, title):
        super().__init__(width, height, title)
 
