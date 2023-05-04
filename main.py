@@ -153,14 +153,12 @@ class MyGame(arcade.Window):
        if (self.game_state == game_state.Game_State.NOT_STARTED and key == arcade.key.SPACE):
            self.game_state = game_state.GameState.ROUND_ACTIVE
 
-       if (self.game_state == game_state.Game_State.ROUND_ACTIVE and key == arcade.key.SPACE):
-           self.game_state = game_state.GameState.ROUND_DONE
-
-       if (self.game_state == game_state.Game_State.ROUND_DONE and key == arcade.key.SPACE): #le rendre vraie ou fausse
+       if (self.game_state == game_state.Game_State.ROUND_DONE and key == arcade.key.SPACE):
            self.game_state = game_state.GameState.ROUND_ACTIVE
 
-       if (self.game_state == game_state.Game_State.Game_OVER and key == arcade.key.SPACE):
-           self.game_state = game_state.GameState.ROUND_ACTIVE #appeler setup variables de base pour tout modifier et revenir fonctions et tout de base
+       if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE): #le rendre vraie ou fausse
+           self.game_state = game_state.GameState.ROUND_ACTIVE
+
 
 
    def reset_round(self):
