@@ -155,9 +155,18 @@ class MyGame(arcade.Window):
 
        if (self.game_state == game_state.Game_State.ROUND_DONE and key == arcade.key.SPACE):
            self.game_state = game_state.GameState.ROUND_ACTIVE
+           self.game_state.NOT_STARTED = False
+           self.game_state.ROUND_ACTIVE = False
+           self.game_state.ROUND_DONE = False
+           self.game_state.GAME_OVER = False
 
        if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE): #le rendre vraie ou fausse
            self.game_state = game_state.GameState.ROUND_ACTIVE
+           self.player_score = 0
+           self.computer_score = 0
+           self.player_won_round = False
+
+
 
 
 
