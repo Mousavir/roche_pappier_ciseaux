@@ -1,12 +1,12 @@
-"""
-Modèle de départ pour la programmation Arcade.
-Il suffit de modifier les méthodes nécessaires à votre jeu.
-"""
+#Rozhina Mousavi
+#TP5
+
 import random
 
 import arcade
 
 import game_state
+
 #import arcade.gui
 
 from attack_animation import AttackType, AttackAnimation
@@ -66,7 +66,23 @@ class MyGame(arcade.Window):
        # C'est ici que vous allez créer vos listes de sprites et vos sprites.
        # Prenez note que vous devriez attribuer une valeur à tous les attributs créés dans __init__
 
-       pass
+       self.game_state = game.state.GameState.ROUND_ACTIVE
+       self.player = arcade.Sprite(":Assets/faceBeard.png")
+       self.player.center_x = 200
+       self.player.center_y = 200
+       self.computer = arcade.Sprite(":Assets/compy.png")
+       self.players = arcade.SpriteList()
+       self.rock = AttackAnimation(AttackType.ROCK)
+       self.paper = None
+       self.scissors = None
+       self.player_score = 0
+       self.computer_score = 0
+       self.player_attack_type = {}  # dictionnaire on mouse presse , if colides with point modify player attack type to rock for example
+       self.computer_attack_type = None
+       self.player_attack_chosen = False
+       self.player_won_round = None
+       self.draw_round = None
+
 
 
 
@@ -136,7 +152,10 @@ class MyGame(arcade.Window):
        """
        #vérifier si le jeu est actif (ROUND_ACTIVE) et continuer l'animation des attaques
        #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
-       #changer l'état de jeu si nécessaire (GAME_OVER)
+       #changer l'état de jeu si nécessaire (GAME_OVER)éà
+       player won round = vaidate victory
+       if player won
+           score augmente de 1 par exemple
        pass
 
    def on_key_press(self, key, key_modifiers):
@@ -155,17 +174,10 @@ class MyGame(arcade.Window):
 
        if (self.game_state == game_state.Game_State.ROUND_DONE and key == arcade.key.SPACE):
            self.game_state = game_state.GameState.ROUND_ACTIVE
-           self.game_state.NOT_STARTED = False
-           self.game_state.ROUND_ACTIVE = False
-           self.game_state.ROUND_DONE = False
-           self.game_state.GAME_OVER = False
+           self.reset_round()
 
        if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE): #le rendre vraie ou fausse
-           self.game_state = game_state.GameState.ROUND_ACTIVE
-           self.player_score = 0
-           self.computer_score = 0
-           self.player_won_round = False
-
+           setup()
 
 
 
@@ -174,11 +186,11 @@ class MyGame(arcade.Window):
        """
        Réinitialiser les variables qui ont été modifiées
        """
-       #self.computer_attack_type = -1
-       #self.player_attack_chosen = False
-       #self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
-       #self.player_won_round = False
-       #self.draw_round = False
+       self.computer_attack_type = -1
+       self.player_attack_chosen = False
+       self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
+       self.player_won_round = False
+       self.draw_round = False
 
        pass
 
