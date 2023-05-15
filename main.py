@@ -67,14 +67,14 @@ class MyGame(arcade.Window):
        # Prenez note que vous devriez attribuer une valeur à tous les attributs créés dans __init__
 
        self.game_state = game.state.GameState.ROUND_ACTIVE
-       self.player = arcade.Sprite(":Assets/faceBeard.png")
+       self.player = arcade.Sprite("Assets/faceBeard.png")
        self.player.center_x = 200
        self.player.center_y = 200
        self.computer = arcade.Sprite(":Assets/compy.png")
-       self.players = arcade.SpriteList()
+       self.players = arcade.SpriteList.append(self.player,self.computer,self.rock,self.paper,self.scissors)
        self.rock = AttackAnimation(AttackType.ROCK)
-       self.paper = None
-       self.scissors = None
+       self.paper = AttackAnimation(AttackType.Paper)
+       self.scissors = AttackAnimation(AttackType.SCISSORS)
        self.player_score = 0
        self.computer_score = 0
        self.player_attack_type = {}  # dictionnaire on mouse presse , if colides with point modify player attack type to rock for example
