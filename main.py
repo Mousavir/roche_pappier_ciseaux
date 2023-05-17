@@ -66,16 +66,16 @@ class MyGame(arcade.Window):
        # C'est ici que vous allez créer vos listes de sprites et vos sprites.
        # Prenez note que vous devriez attribuer une valeur à tous les attributs créés dans __init__
 
-       self.game_state = game.state.GameState.ROUND_ACTIVE
+       self.game_state = game_state.GameState.ROUND_ACTIVE
        self.player = arcade.Sprite("Assets/faceBeard.png")
        self.player.center_x = 200
        self.player.center_y = 200
-       self.player.draw()
+
        self.computer = arcade.Sprite(":Assets/compy.png")
        self.computer.center_x = 400
        self.computer.center_y = 400
-       self.computer.draw()
-       self.players = arcade.SpriteList.append(self.player,self.computer,self.rock,self.paper,self.scissors)
+
+       self.players = arcade.SpriteList.append(self.player,self.computer)
        self.rock = AttackAnimation(AttackType.ROCK)
        self.paper = AttackAnimation(AttackType.Paper)
        self.scissors = AttackAnimation(AttackType.SCISSORS)
@@ -95,8 +95,14 @@ class MyGame(arcade.Window):
        Utilisé pour déterminer qui obtient la victoire (ou s'il y a égalité)
        Rappel: après avoir validé la victoire, il faut changer l'état de jeu
        """
+       # validate validate_victory()
+       player won round = vaidate victory
+       if player won score augmente de 1 par exemple
+
+       change game_state to game over when one player score reaches 3
 
 
+draw rectangle not filled for the frames thes images du player
    def draw_possible_attack(self):
        """
        Méthode utilisée pour dessiner toutes les possibilités d'attaque du joueur
@@ -116,6 +122,7 @@ class MyGame(arcade.Window):
        """
        Montrer les scores du joueur et de l'ordinateur
        """
+       pointage dessiner sur ecran
        pass
 
    def draw_instructions(self):
@@ -128,6 +135,8 @@ class MyGame(arcade.Window):
 
        if self.game_state == game_state.Game_State.ROUND_DONE:
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140,16,arcade.color.GIANTS_ORANGE)
+
+        if game over (whcih you difine in on update) who won
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!", 300, 140, 16, arcade.color.GIANTS_ORANGE)
            arcade.draw_text("L'")
 
@@ -163,11 +172,28 @@ class MyGame(arcade.Window):
            - delta_time : le nombre de milliseconde depuis le dernier update.
        """
        #vérifier si le jeu est actif (ROUND_ACTIVE) et continuer l'animation des attaques
+
+
+       on affiche plus les images que nous avons plus besoin
+
+
        #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
+
+       if attack_type = attack_type.rock
+
+           validtae_victory()
+
        #changer l'état de jeu si nécessaire (GAME_OVER)éà
-       player won round = vaidate victory
+       #validate validate_victory()
+   player won round = vaidate victory
        if player won
            score augmente de 1 par exemple
+
+        for computerattack_type
+            random.randint entre attack type rock, paper and scisors
+
+
+
        pass
 
    def on_key_press(self, key, key_modifiers):
@@ -188,7 +214,7 @@ class MyGame(arcade.Window):
            self.game_state = game_state.GameState.ROUND_ACTIVE
            self.reset_round()
 
-       if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE): #le rendre vraie ou fausse
+       if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE):
            setup()
 
 
@@ -215,9 +241,16 @@ class MyGame(arcade.Window):
            - key_modifiers: est-ce que l'usager appuie sur "shift" ou "ctrl" ?
        """
 
+       if self.rock.collides_with_point((x,y)):
+
+
+       if self.paper.collides_with_point((x,y)):
+            self.player_attack_type == AttackType.ROCK
+
+
        # Test de collision pour le type d'attaque (self.player_attack_type).
        # Rappel que si le joueur choisi une attaque, self.player_attack_chosen = True
-       pass
+
 
 
 def main():
