@@ -81,7 +81,7 @@ class MyGame(arcade.Window):
        self.scissors = AttackAnimation(AttackType.SCISSORS)
        self.player_score = 0
        self.computer_score = 0
-       self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}  # dictionnaire on mouse presse , if colides with point modify player attack type to rock for example
+       self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
        self.computer_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
        self.player_attack_chosen = False
        self.player_won_round = None
@@ -129,7 +129,7 @@ class MyGame(arcade.Window):
        if self.game_state == game_state.Game_State.ROUND_DONE:
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140,16,arcade.color.GIANTS_ORANGE)
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!", 300, 140, 16, arcade.color.GIANTS_ORANGE)
-           arcade.draw_text("L'ordinateur à gagné")
+           arcade.draw_text("L'")
 
 
    def on_draw(self): #s'assurer ont est dans quelle état de jeu if game_state = round...
@@ -229,4 +229,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-

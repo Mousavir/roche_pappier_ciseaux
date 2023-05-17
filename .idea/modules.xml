@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TP5.iml" filepath="$PROJECT_DIR$/.idea/TP5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../roche_papier_ciseaux/.idea/rozhe_papier_ciseaux.iml" filepath="$PROJECT_DIR$/../roche_papier_ciseaux/.idea/rozhe_papier_ciseaux.iml" />
     </modules>
   </component>
 </project>
