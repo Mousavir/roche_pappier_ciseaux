@@ -247,6 +247,8 @@ draw rectangle not filled for the frames thes images du player
        if self.paper.collides_with_point((x,y)):
             self.player_attack_type == AttackType.ROCK
 
+           chnage attack type which atomatcl chnages it to true and in on update use this true factor for other things
+
 
        # Test de collision pour le type d'attaque (self.player_attack_type).
        # Rappel que si le joueur choisi une attaque, self.player_attack_chosen = True
