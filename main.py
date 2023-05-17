@@ -99,7 +99,9 @@ class MyGame(arcade.Window):
        player won round = vaidate victory
        if player won score augmente de 1 par exemple
 
-       change game_state to game over when one player score reaches 3
+       change game_state to game over when one player score reaches 3 points then someone wins
+
+
 
 
 draw rectangle not filled for the frames thes images du player
