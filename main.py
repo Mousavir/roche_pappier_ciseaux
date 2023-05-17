@@ -34,11 +34,11 @@ class MyGame(arcade.Window):
    ATTACK_FRAME_WIDTH = 154 / 2
    ATTACK_FRAME_HEIGHT = 154 / 2
 
-#ccmmit
+
    def __init__(self, width, height, title):
        super().__init__(width, height, title)
 
-       arcade.set_background_color(arcade.color.BLACK_OLIVE)
+       arcade.set_background_color(arcade.color.BLIZZARD_BLUE)
 
        self.player = None
        self.computer = None
@@ -70,15 +70,19 @@ class MyGame(arcade.Window):
        self.player = arcade.Sprite("Assets/faceBeard.png")
        self.player.center_x = 200
        self.player.center_y = 200
+       self.player.draw()
        self.computer = arcade.Sprite(":Assets/compy.png")
+       self.computer.center_x = 400
+       self.computer.center_y = 400
+       self.computer.draw()
        self.players = arcade.SpriteList.append(self.player,self.computer,self.rock,self.paper,self.scissors)
        self.rock = AttackAnimation(AttackType.ROCK)
        self.paper = AttackAnimation(AttackType.Paper)
        self.scissors = AttackAnimation(AttackType.SCISSORS)
        self.player_score = 0
        self.computer_score = 0
-       self.player_attack_type = {}  # dictionnaire on mouse presse , if colides with point modify player attack type to rock for example
-       self.computer_attack_type = None
+       self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}  # dictionnaire on mouse presse , if colides with point modify player attack type to rock for example
+       self.computer_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
        self.player_attack_chosen = False
        self.player_won_round = None
        self.draw_round = None
@@ -118,7 +122,15 @@ class MyGame(arcade.Window):
        """
        Dépendemment de l'état de jeu, afficher les instructions d'utilisation au joueur (appuyer sur espace, ou sur une image)
        """
-       pass
+       arcade.draw_text("Roche, papier, ciseaux,", 300, 80, 18, arcade.color.BRIGHT_PINK)
+       if self.game_state == game_state.Game_State.NOT_STARTED:
+           arcade.draw_text("Appuyer sur une image pour faire une attaque!",300,140,16,arcade.color.GIANTS_ORANGE)
+
+       if self.game_state == game_state.Game_State.ROUND_DONE:
+           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140,16,arcade.color.GIANTS_ORANGE)
+           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!", 300, 140, 16, arcade.color.GIANTS_ORANGE)
+           arcade.draw_text("L'ordinateur à gagné")
+
 
    def on_draw(self): #s'assurer ont est dans quelle état de jeu if game_state = round...
        """
@@ -140,7 +152,7 @@ class MyGame(arcade.Window):
 
        #afficher l'attaque de l'ordinateur selon l'état de jeu
        #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
-       pass
+
 
    def on_update(self, delta_time):
        """
@@ -192,7 +204,7 @@ class MyGame(arcade.Window):
        self.player_won_round = False
        self.draw_round = False
 
-       pass
+
 
    def on_mouse_press(self, x, y, button, key_modifiers): #sprite
        """
