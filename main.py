@@ -96,10 +96,14 @@ class MyGame(arcade.Window):
        Rappel: après avoir validé la victoire, il faut changer l'état de jeu
        """
        # validate validate_victory()
-       player won round = vaidate victory
-       if player won score augmente de 1 par exemple
+       #player won round = vaidate victory
 
-       change game_state to game over when one player score reaches 3 points then someone wins
+       #if player won score augmente de 1 par exemple
+
+       #change game_state to game over when one player score reaches 3 points then someone wins
+
+       #c'est dans validate victory qu'on compare les attack type player et ordinatuer
+       si rock vs rock, ou si paper vs on definit le winner
 
 
 
@@ -131,16 +135,18 @@ draw rectangle not filled for the frames thes images du player
        """
        Dépendemment de l'état de jeu, afficher les instructions d'utilisation au joueur (appuyer sur espace, ou sur une image)
        """
-       arcade.draw_text("Roche, papier, ciseaux,", 300, 80, 18, arcade.color.BRIGHT_PINK)
+
+
        if self.game_state == game_state.Game_State.NOT_STARTED:
            arcade.draw_text("Appuyer sur une image pour faire une attaque!",300,140,16,arcade.color.GIANTS_ORANGE)
 
        if self.game_state == game_state.Game_State.ROUND_DONE:
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140,16,arcade.color.GIANTS_ORANGE)
 
-        if game over (whcih you difine in on update) who won
+       #le game state qui est game over est definit dans la methode on_update() d'apres qui a gagne
+       if self.game.statre == game_state.Game_State.GAME_OVER:
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!", 300, 140, 16, arcade.color.GIANTS_ORANGE)
-           arcade.draw_text("L'")
+
 
 
    def on_draw(self): #s'assurer ont est dans quelle état de jeu if game_state = round...
@@ -154,7 +160,7 @@ draw rectangle not filled for the frames thes images du player
        arcade.start_render()
 
        # Display title
-       arcade.draw_text(SCREEN_TITLE,0,SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,arcade.color.BLACK_BEAN, 60, width=SCREEN_WIDTH, align="center")
+       arcade.draw_text(SCREEN_TITLE,0,SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,arcade.color.BRIGHT_PINK, 60, width=SCREEN_WIDTH, align="center")
 
        self.draw_instructions()
        self.players.draw()
@@ -163,6 +169,12 @@ draw rectangle not filled for the frames thes images du player
 
        #afficher l'attaque de l'ordinateur selon l'état de jeu
        #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
+if game_state
+       if self.player == winner
+           arcade.draw_text("Vous avez gagné la partie! La partie est terminée!", 300, 160, 16,
+                            arcade.color.GIANTS_ORANGE)
+       if self.computer == winner
+           arcade.draw_text("L'ordinateur a gagné la partie!", 300, 160, 16, arcade.color.GIANTS_ORANGE)
 
 
    def on_update(self, delta_time):
@@ -172,27 +184,49 @@ draw rectangle not filled for the frames thes images du player
        vous allez invoquer la méthode "update()" sur vos listes de sprites.
        Paramètre:
            - delta_time : le nombre de milliseconde depuis le dernier update.
+
        """
-       #vérifier si le jeu est actif (ROUND_ACTIVE) et continuer l'animation des attaques
+       if not(self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           # d'apres la methode on_update dans attack_animation
+           self.rock.on_update()
+           self.paper.on_update()
+           self.scisorrs.on_update()
 
+       if self.player_attack_chosen and game_state.GameState.ROUND_ACTIVE:
+           pc_attack = random.randint(0,2)
+           if pc_attack == 0:
+               self.computer_attqck_type == AttackType.ROCK
+           elif pc_attack == 1:
+               self.computer_attack_type = AttackType.PAPER
 
-       on affiche plus les images que nous avons plus besoin
+           else:
+               self.computer_attack_type = AttackType.SCISSORS
+
+           self.validate_victory()
+
+       if self.player_won_round:
+           self.player.score +=1
+           if
+
+       if not(self.player.won_round):
+           self.computer_score +=1
+
+           #if player won comou lost
+           #if player lost cmpu won
+           #on change score on chnage a game over
+
 
 
        #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
 
-       if attack_type = attack_type.rock
 
-           validtae_victory()
 
        #changer l'état de jeu si nécessaire (GAME_OVER)éà
-       #validate validate_victory()
+
    player won round = vaidate victory
        if player won
            score augmente de 1 par exemple
 
-        for computerattack_type
-            random.randint entre attack type rock, paper and scisors
 
 
 
@@ -243,13 +277,23 @@ draw rectangle not filled for the frames thes images du player
            - key_modifiers: est-ce que l'usager appuie sur "shift" ou "ctrl" ?
        """
 
+       #definir quel type est le attack type du player qu'il choisit d'apres son clique sur l'ecran
+       #changer le attack_type change automatiquement la valeur de ce variable AttackType a True. Ce valeur de True est utilise dans la method on_update() pour les etapes suivants
+
        if self.rock.collides_with_point((x,y)):
+           self.player_attack_type == AttackType.ROCK
+           self.player_attack_chosen = True
 
 
        if self.paper.collides_with_point((x,y)):
-            self.player_attack_type == AttackType.ROCK
+           self.player_attack_type == AttackType.PAPER
+           self.player_attack_chosen = True
 
-           chnage attack type which atomatcl chnages it to true and in on update use this true factor for other things
+       if self.scissors.collides_with_point((x,y)):
+           self.player_attack_type == AttackType.SCISSORS
+           self.player_attack_chosen = True
+
+
 
 
        # Test de collision pour le type d'attaque (self.player_attack_type).
