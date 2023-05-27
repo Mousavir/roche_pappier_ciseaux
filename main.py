@@ -58,6 +58,7 @@ class MyGame(arcade.Window):
 
 #fonction en maine pour les objects statiques
    #1)dessiner les photos sprtes
+
    def setup(self):
        """
        Configurer les variables de votre jeu ici. Il faut appeler la méthode une nouvelle
@@ -68,12 +69,12 @@ class MyGame(arcade.Window):
 
        self.game_state = game_state.GameState.ROUND_ACTIVE
        self.player = arcade.Sprite("Assets/faceBeard.png")
-       self.player.center_x = 200
-       self.player.center_y = 200
+       #self.player.center_x = 200
+       #self.player.center_y = 200
 
        self.computer = arcade.Sprite(":Assets/compy.png")
-       self.computer.center_x = 400
-       self.computer.center_y = 400
+       #self.computer.center_x = 400
+       #self.computer.center_y = 400
 
        self.players = arcade.SpriteList.append(self.player,self.computer)
        self.rock = AttackAnimation(AttackType.ROCK)
@@ -95,20 +96,44 @@ class MyGame(arcade.Window):
        Utilisé pour déterminer qui obtient la victoire (ou s'il y a égalité)
        Rappel: après avoir validé la victoire, il faut changer l'état de jeu
        """
-       # validate validate_victory()
-       #player won round = vaidate victory
 
-       #if player won score augmente de 1 par exemple
+       if game_state.GameState.ROUND_ACTIVE:
+           if self.player.attack_type == AttackType.ROCK:
+               if self.computer_attack_type == AttackType.ROCK:
+                   self.computer_score +=1
+               if self.computer_attack_type == AttackType.PAPER or AttackType.SCISSORS:
+                   self.player_won_round = True
+                   self.player_score +=1
 
-       #change game_state to game over when one player score reaches 3 points then someone wins
+           if self.player.attack_type == AttackType.PAPER:
+               if self.computer_attack_type == AttackType.PAPER:
+                   self.computer_score += 1
 
-       #c'est dans validate victory qu'on compare les attack type player et ordinatuer
-       si rock vs rock, ou si paper vs on definit le winner
+               if self.computer_attack_type == AttackType.Rock:
+                   self.player_won_round = True
+                   self.player_score += 1
+
+               if self.computer_attack_type == AttackType.SCISSORS:
+                   self.computer_score +=1
+
+           if self.player.attack_type == AttackType.SCISSORS:
+
+               if self.computer_attack_type == AttackType.SCISSORS:
+                   self.computer_score += 1
+
+               if self.computer_attack_type == AttackType.Rock:
+                   self.computer_score += 1
+
+               if self.computer_attack_type == AttackType.PAPER:
+                   self.player_won_round = True
+                   self.player_score += 1
+                   
+           if self.player_score ==3 or self.computer_score ==3:
+               game_state.GameState.GAME_OVER
 
 
 
 
-draw rectangle not filled for the frames thes images du player
    def draw_possible_attack(self):
        """
        Méthode utilisée pour dessiner toutes les possibilités d'attaque du joueur
@@ -128,7 +153,7 @@ draw rectangle not filled for the frames thes images du player
        """
        Montrer les scores du joueur et de l'ordinateur
        """
-       pointage dessiner sur ecran
+       draw       rectangle       not filled       for the frames thes images du player       pointage dessiner sur ecran
        pass
 
    def draw_instructions(self):
@@ -204,16 +229,6 @@ if game_state
 
            self.validate_victory()
 
-       if self.player_won_round:
-           self.player.score +=1
-           if
-
-       if not(self.player.won_round):
-           self.computer_score +=1
-
-           #if player won comou lost
-           #if player lost cmpu won
-           #on change score on chnage a game over
 
 
 
@@ -223,14 +238,7 @@ if game_state
 
        #changer l'état de jeu si nécessaire (GAME_OVER)éà
 
-   player won round = vaidate victory
-       if player won
-           score augmente de 1 par exemple
 
-
-
-
-       pass
 
    def on_key_press(self, key, key_modifiers):
        """
@@ -251,7 +259,7 @@ if game_state
            self.reset_round()
 
        if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE):
-           setup()
+           self.setup()
 
 
 
