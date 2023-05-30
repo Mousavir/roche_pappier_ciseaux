@@ -22,7 +22,7 @@ class AttackAnimation(arcade.Sprite):
        if self.attack_type == AttackType.ROCK:
            self.textures = [
                arcade.load_texture("Assets/srock.png"),
-               arcade.load_texture("Assets/srock-attack.png"),
+               arcade.load_texture("Assets/srock-attack (1).png"),
            ]
        elif self.attack_type == AttackType.PAPER:
            self.textures = [
