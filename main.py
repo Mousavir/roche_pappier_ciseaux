@@ -127,12 +127,22 @@ class MyGame(arcade.Window):
                if self.computer_attack_type == AttackType.PAPER:
                    self.player_won_round = True
                    self.player_score += 1
-                   
+
            if self.player_score ==3 or self.computer_score ==3:
                game_state.GameState.GAME_OVER
 
+   raw
+   rectangle
+   not filled
+   for the frames thes images du player       pointage dessiner sur ecran
+   pass
 
-
+   PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) - (SCREEN_WIDTH / 4)
+   PLAYER_IMAGE_Y = SCREEN_HEIGHT / 2.5
+   COMPUTER_IMAGE_X = (SCREEN_WIDTH / 2) * 1.5
+   COMPUTER_IMAGE_Y = SCREEN_HEIGHT / 2.5
+   ATTACK_FRAME_WIDTH = 154 / 2
+   ATTACK_FRAME_HEIGHT = 154 / 2
 
    def draw_possible_attack(self):
        """
@@ -140,7 +150,18 @@ class MyGame(arcade.Window):
        (si aucune attaque n'a été sélectionnée, il faut dessiner les trois possibilités)
        (si une attaque a été sélectionnée, il faut dessiner cette attaque)
        """
-       pass
+       if (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.player_attack_type.draw()
+
+       if not (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.player_attack_type.ROCK.draw()
+           self.player_attack_type.PAPER.draw()
+           self.player.attack_type.SCISORS.draw()
+
+       self. rectangle_outline = (ATTACK_FRAME_WIDTH, ATTACK_FRAME_HEIGHT, )
+
+       arcade.draw_rectangle_outline()
+
 
    def draw_computer_attack(self):
        """
@@ -153,8 +174,10 @@ class MyGame(arcade.Window):
        """
        Montrer les scores du joueur et de l'ordinateur
        """
-       draw       rectangle       not filled       for the frames thes images du player       pointage dessiner sur ecran
-       pass
+       arcade.draw_text("Le pointage du jouer est" + self.player_score + ".",50,100,16,arcade.color.GIANTS_ORANGE)
+       arcade.draw_text("Le pointage de l'ordinateur est" + self.computer_score + ".",990,100,16,arcade.color.GIANTS_ORANGE)
+
+
 
    def draw_instructions(self):
        """
@@ -230,13 +253,6 @@ if game_state
            self.validate_victory()
 
 
-
-
-       #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
-
-
-
-       #changer l'état de jeu si nécessaire (GAME_OVER)éà
 
 
 
