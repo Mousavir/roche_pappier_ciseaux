@@ -74,12 +74,13 @@ class MyGame(arcade.Window):
 
        self.game_state = game_state.GameState.ROUND_ACTIVE
        self.player = arcade.Sprite("Assets/faceBeard.png")
-       self.player.center_x = 200
-       self.player.center_y = 200
+       #self.player.center_x = 200
+       #self.player.center_y = 200
 
        self.computer = arcade.Sprite("Assets/compy.png")
-       self.computer.center_x = 400
-       self.computer.center_y = 400
+
+       #self.computer.center_x = 400
+       #self.computer.center_y = 400
 
        self.players = arcade.SpriteList()
        self.players.append(self.player)
