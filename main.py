@@ -131,11 +131,6 @@ class MyGame(arcade.Window):
            if self.player_score ==3 or self.computer_score ==3:
                game_state.GameState.GAME_OVER
 
-   raw
-   rectangle
-   not filled
-   for the frames thes images du player       pointage dessiner sur ecran
-   pass
 
    PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) - (SCREEN_WIDTH / 4)
    PLAYER_IMAGE_Y = SCREEN_HEIGHT / 2.5
@@ -167,7 +162,17 @@ class MyGame(arcade.Window):
        """
        Méthode utilisée pour dessiner les possibilités d'attaque de l'ordinateur
        """
-       pass
+       if (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.computer_attack_type.draw()
+
+       if not (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.computer_attack_type.ROCK.draw()
+           self.computer_attack_type.PAPER.draw()
+           self.computer.attack_type.SCISORS.draw()
+
+       self.rectangle_outline = (ATTACK_FRAME_WIDTH, ATTACK_FRAME_HEIGHT,)
+
+       arcade.draw_rectangle_outline()
 
 
    def draw_scores(self):
@@ -176,6 +181,14 @@ class MyGame(arcade.Window):
        """
        arcade.draw_text("Le pointage du jouer est" + self.player_score + ".",50,100,16,arcade.color.GIANTS_ORANGE)
        arcade.draw_text("Le pointage de l'ordinateur est" + self.computer_score + ".",990,100,16,arcade.color.GIANTS_ORANGE)
+
+
+       if self.game_state == game_state.Game_State.ROUND_DONE:
+           if self.player_won_round:
+               arcade.draw_text("Vous avez gagné la partie! La partie est terminée!", 300, 160, 16,
+                                arcade.color.GIANTS_ORANGE)
+           if not(self.player_won_round):
+               arcade.draw_text("L'ordinateur a gagné la partie!", 300, 160, 16, arcade.color.GIANTS_ORANGE)
 
 
 
@@ -217,12 +230,7 @@ class MyGame(arcade.Window):
 
        #afficher l'attaque de l'ordinateur selon l'état de jeu
        #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
-if game_state
-       if self.player == winner
-           arcade.draw_text("Vous avez gagné la partie! La partie est terminée!", 300, 160, 16,
-                            arcade.color.GIANTS_ORANGE)
-       if self.computer == winner
-           arcade.draw_text("L'ordinateur a gagné la partie!", 300, 160, 16, arcade.color.GIANTS_ORANGE)
+
 
 
    def on_update(self, delta_time):
