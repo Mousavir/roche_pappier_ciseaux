@@ -19,6 +19,8 @@ SCREEN_TITLE = "Roche, papier, ciseaux"
 DEFAULT_LINE_HEIGHT = 45  # The default line height for text.
 PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) - (SCREEN_WIDTH / 4)
 PLAYER_IMAGE_Y = SCREEN_HEIGHT / 2.5
+PLAYER_IMAGE_HEIGHT = 40
+PLAYER_IMAGE_WIDTH = 40
 COMPUTER_IMAGE_X = (SCREEN_WIDTH / 2) * 1.5
 COMPUTER_IMAGE_Y = SCREEN_HEIGHT / 2.5
 ATTACK_FRAME_WIDTH = 154 / 2
@@ -69,13 +71,10 @@ class MyGame(arcade.Window):
 
        self.game_state = game_state.GameState.ROUND_ACTIVE
        self.player = arcade.Sprite("Assets/faceBeard.png")
-       #self.player.center_x = 200
-       #self.player.center_y = 200
+
 
        self.computer = arcade.Sprite("Assets/compy.png")
 
-       #self.computer.center_x = 400
-       #self.computer.center_y = 400
 
        self.players = arcade.SpriteList()
        self.players.append(self.player)
@@ -175,8 +174,8 @@ class MyGame(arcade.Window):
        """
        Montrer les scores du joueur et de l'ordinateur
        """
-       arcade.draw_text("Le pointage du jouer est" + str(self.player_score) + ".",50,100,arcade.color.GIANTS_ORANGE, 16)
-       arcade.draw_text("Le pointage de l'ordinateur est" + str(self.computer_score) + ".",990,100,arcade.color.GIANTS_ORANGE, 16)
+       arcade.draw_text("Le pointage du jouer est " + str(self.player_score) + ".",50,100,arcade.color.GIANTS_ORANGE, 16)
+       arcade.draw_text("Le pointage de l'ordinateur est " + str(self.computer_score) + ".",600,100,arcade.color.GIANTS_ORANGE, 16)
 
 
        if self.game_state == game_state.GameState.ROUND_DONE:
@@ -217,7 +216,7 @@ class MyGame(arcade.Window):
        arcade.start_render()
 
        # Display title
-       arcade.draw_text(SCREEN_TITLE,0,SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,arcade.color.BRIGHT_PINK, 60, width=SCREEN_WIDTH, align="center")
+       arcade.draw_text(SCREEN_TITLE,0,SCREEN_HEIGHT - DEFAULT_LINE_HEIGHT * 2,arcade.color.BRIGHT_PINK, 40, width=SCREEN_WIDTH, align="center")
 
        self.draw_instructions()
        self.players.draw()
@@ -247,7 +246,7 @@ class MyGame(arcade.Window):
        if self.player_attack_chosen and game_state.GameState.ROUND_ACTIVE:
            pc_attack = random.randint(0,2)
            if pc_attack == 0:
-               self.computer_attqck_type == AttackType.ROCK
+               self.computer_attack_type == AttackType.ROCK
            elif pc_attack == 1:
                self.computer_attack_type = AttackType.PAPER
 
