@@ -17,7 +17,12 @@ SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Roche, papier, ciseaux"
 DEFAULT_LINE_HEIGHT = 45  # The default line height for text.
-
+PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) - (SCREEN_WIDTH / 4)
+PLAYER_IMAGE_Y = SCREEN_HEIGHT / 2.5
+COMPUTER_IMAGE_X = (SCREEN_WIDTH / 2) * 1.5
+COMPUTER_IMAGE_Y = SCREEN_HEIGHT / 2.5
+ATTACK_FRAME_WIDTH = 154 / 2
+ATTACK_FRAME_HEIGHT = 154 / 2
 
 class MyGame(arcade.Window):
    """
@@ -27,12 +32,7 @@ class MyGame(arcade.Window):
    Si vous en avez besoin, remplacer le mot clé "pass" par votre propre code.
    """
 
-   PLAYER_IMAGE_X = (SCREEN_WIDTH / 2) - (SCREEN_WIDTH / 4)
-   PLAYER_IMAGE_Y = SCREEN_HEIGHT / 2.5
-   COMPUTER_IMAGE_X = (SCREEN_WIDTH / 2) * 1.5
-   COMPUTER_IMAGE_Y = SCREEN_HEIGHT / 2.5
-   ATTACK_FRAME_WIDTH = 154 / 2
-   ATTACK_FRAME_HEIGHT = 154 / 2
+
 
 
    def __init__(self, width, height, title):
@@ -58,6 +58,7 @@ class MyGame(arcade.Window):
 
 #fonction en maine pour les objects statiques
    #1)dessiner les photos sprtes
+
    def setup(self):
        """
        Configurer les variables de votre jeu ici. Il faut appeler la méthode une nouvelle
@@ -68,16 +69,19 @@ class MyGame(arcade.Window):
 
        self.game_state = game_state.GameState.ROUND_ACTIVE
        self.player = arcade.Sprite("Assets/faceBeard.png")
-       self.player.center_x = 200
-       self.player.center_y = 200
+       #self.player.center_x = 200
+       #self.player.center_y = 200
 
-       self.computer = arcade.Sprite(":Assets/compy.png")
-       self.computer.center_x = 400
-       self.computer.center_y = 400
+       self.computer = arcade.Sprite("Assets/compy.png")
 
-       self.players = arcade.SpriteList.append(self.player,self.computer)
+       #self.computer.center_x = 400
+       #self.computer.center_y = 400
+
+       self.players = arcade.SpriteList()
+       self.players.append(self.player)
+       self.players.append(self.computer)
        self.rock = AttackAnimation(AttackType.ROCK)
-       self.paper = AttackAnimation(AttackType.Paper)
+       self.paper = AttackAnimation(AttackType.PAPER)
        self.scissors = AttackAnimation(AttackType.SCISSORS)
        self.player_score = 0
        self.computer_score = 0
@@ -95,41 +99,94 @@ class MyGame(arcade.Window):
        Utilisé pour déterminer qui obtient la victoire (ou s'il y a égalité)
        Rappel: après avoir validé la victoire, il faut changer l'état de jeu
        """
-       # validate validate_victory()
-       #player won round = vaidate victory
 
-       #if player won score augmente de 1 par exemple
+       if game_state.GameState.ROUND_ACTIVE:
+           if self.player.attack_type == AttackType.ROCK:
+               if self.computer_attack_type == AttackType.ROCK:
+                   self.computer_score +=1
+               if self.computer_attack_type == AttackType.PAPER or AttackType.SCISSORS:
+                   self.player_won_round = True
+                   self.player_score +=1
 
-       #change game_state to game over when one player score reaches 3 points then someone wins
+           if self.player.attack_type == AttackType.PAPER:
+               if self.computer_attack_type == AttackType.PAPER:
+                   self.computer_score += 1
 
-       #c'est dans validate victory qu'on compare les attack type player et ordinatuer
-       si rock vs rock, ou si paper vs on definit le winner
+               if self.computer_attack_type == AttackType.Rock:
+                   self.player_won_round = True
+                   self.player_score += 1
+
+               if self.computer_attack_type == AttackType.SCISSORS:
+                   self.computer_score +=1
+
+           if self.player.attack_type == AttackType.SCISSORS:
+
+               if self.computer_attack_type == AttackType.SCISSORS:
+                   self.computer_score += 1
+
+               if self.computer_attack_type == AttackType.Rock:
+                   self.computer_score += 1
+
+               if self.computer_attack_type == AttackType.PAPER:
+                   self.player_won_round = True
+                   self.player_score += 1
+
+           if self.player_score ==3 or self.computer_score ==3:
+               game_state.GameState.GAME_OVER
 
 
-
-
-draw rectangle not filled for the frames thes images du player
    def draw_possible_attack(self):
        """
        Méthode utilisée pour dessiner toutes les possibilités d'attaque du joueur
        (si aucune attaque n'a été sélectionnée, il faut dessiner les trois possibilités)
        (si une attaque a été sélectionnée, il faut dessiner cette attaque)
        """
-       pass
+       if (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.player_attack_type.draw()
+
+       if not (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.rock.draw()
+           self.paper.draw()
+           self.scissors.draw()
+
+       arcade.draw_rectangle_outline(50,50, ATTACK_FRAME_WIDTH, ATTACK_FRAME_HEIGHT,arcade.color.RED, 0.5, 0)
+
+
+
 
    def draw_computer_attack(self):
        """
        Méthode utilisée pour dessiner les possibilités d'attaque de l'ordinateur
        """
-       pass
+       if (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.computer_attack_type.draw()
+
+       if not (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+           self.rock.draw()
+           self.paper.draw()
+           self.scissors.draw()
+
+       self.rectangle_outline = (ATTACK_FRAME_WIDTH, ATTACK_FRAME_HEIGHT,)
+
+       arcade.draw_rectangle_outline()
 
 
    def draw_scores(self):
        """
        Montrer les scores du joueur et de l'ordinateur
        """
-       pointage dessiner sur ecran
-       pass
+       arcade.draw_text("Le pointage du jouer est" + str(self.player_score) + ".",50,100,arcade.color.GIANTS_ORANGE, 16)
+       arcade.draw_text("Le pointage de l'ordinateur est" + str(self.computer_score) + ".",990,100,arcade.color.GIANTS_ORANGE, 16)
+
+
+       if self.game_state == game_state.GameState.ROUND_DONE:
+           if self.player_won_round:
+               arcade.draw_text("Vous avez gagné la partie! La partie est terminée!", 300, 160,
+                                arcade.color.GIANTS_ORANGE, 16)
+           if not(self.player_won_round):
+               arcade.draw_text("L'ordinateur a gagné la partie!", 300, 160, arcade.color.GIANTS_ORANGE, 16)
+
+
 
    def draw_instructions(self):
        """
@@ -137,15 +194,15 @@ draw rectangle not filled for the frames thes images du player
        """
 
 
-       if self.game_state == game_state.Game_State.NOT_STARTED:
-           arcade.draw_text("Appuyer sur une image pour faire une attaque!",300,140,16,arcade.color.GIANTS_ORANGE)
+       if self.game_state == game_state.GameState.NOT_STARTED:
+           arcade.draw_text("Appuyer sur une image pour faire une attaque!",300,140,arcade.color.GIANTS_ORANGE, 16)
 
-       if self.game_state == game_state.Game_State.ROUND_DONE:
-           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140,16,arcade.color.GIANTS_ORANGE)
+       if self.game_state == game_state.GameState.ROUND_DONE:
+           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140, arcade.color.GIANTS_ORANGE, 16)
 
        #le game state qui est game over est definit dans la methode on_update() d'apres qui a gagne
-       if self.game.statre == game_state.Game_State.GAME_OVER:
-           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!", 300, 140, 16, arcade.color.GIANTS_ORANGE)
+       if self.game_state == game_state.GameState.GAME_OVER:
+           arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!", 300, 140, arcade.color.GIANTS_ORANGE, 16)
 
 
 
@@ -169,12 +226,7 @@ draw rectangle not filled for the frames thes images du player
 
        #afficher l'attaque de l'ordinateur selon l'état de jeu
        #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
-if game_state
-       if self.player == winner
-           arcade.draw_text("Vous avez gagné la partie! La partie est terminée!", 300, 160, 16,
-                            arcade.color.GIANTS_ORANGE)
-       if self.computer == winner
-           arcade.draw_text("L'ordinateur a gagné la partie!", 300, 160, 16, arcade.color.GIANTS_ORANGE)
+
 
 
    def on_update(self, delta_time):
@@ -190,7 +242,7 @@ if game_state
            # d'apres la methode on_update dans attack_animation
            self.rock.on_update()
            self.paper.on_update()
-           self.scisorrs.on_update()
+           self.scissors.on_update()
 
        if self.player_attack_chosen and game_state.GameState.ROUND_ACTIVE:
            pc_attack = random.randint(0,2)
@@ -204,33 +256,9 @@ if game_state
 
            self.validate_victory()
 
-       if self.player_won_round:
-           self.player.score +=1
-           if
-
-       if not(self.player.won_round):
-           self.computer_score +=1
-
-           #if player won comou lost
-           #if player lost cmpu won
-           #on change score on chnage a game over
 
 
 
-       #si le joueur a choisi une attaque, générer une attaque de l'ordinateur et valider la victoire
-
-
-
-       #changer l'état de jeu si nécessaire (GAME_OVER)éà
-
-   player won round = vaidate victory
-       if player won
-           score augmente de 1 par exemple
-
-
-
-
-       pass
 
    def on_key_press(self, key, key_modifiers):
        """
@@ -251,7 +279,7 @@ if game_state
            self.reset_round()
 
        if (self.game_state == game_state.Game_State.GAME_OVER and key == arcade.key.SPACE):
-           setup()
+           self.setup()
 
 
 
