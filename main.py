@@ -85,6 +85,7 @@ class MyGame(arcade.Window):
        self.rock.center_x = 400
        self.rock.center_y = 500
        self.paper = AttackAnimation(AttackType.PAPER)
+         
        self.scissors = AttackAnimation(AttackType.SCISSORS)
        self.player_score = 0
        self.computer_score = 0
@@ -134,8 +135,7 @@ class MyGame(arcade.Window):
                    self.player_won_round = True
                    self.player_score += 1
 
-           if self.player_score ==3 or self.computer_score ==3:
-               self.game_state = GameState.GAME_OVER
+          
 
        self.game_state = GameState.ROUND_DONE
 
@@ -247,13 +247,13 @@ class MyGame(arcade.Window):
            - delta_time : le nombre de milliseconde depuis le dernier update.
 
        """
-       if not(self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+       if not(self.player_attack_chosen) and self.game_state == GameState.ROUND_ACTIVE:
            # d'apres la methode on_update dans attack_animation
            self.rock.on_update()
            self.paper.on_update()
            self.scissors.on_update()
 
-       if self.player_attack_chosen and game_state == GameState.ROUND_ACTIVE:
+       if self.player_attack_chosen and self.game_state == GameState.ROUND_ACTIVE:
            pc_attack = random.randint(0,2)
            if pc_attack == 0:
                self.computer_attack_type == AttackType.ROCK
@@ -262,9 +262,18 @@ class MyGame(arcade.Window):
 
            else:
                self.computer_attack_type = AttackType.SCISSORS
-
+        
+      
            self.validate_victory()
-
+         
+      #if self.game_state == GameSate.Round_Done:
+            reset_round()
+         
+      if self.player_score ==3 or self.computer_score ==3:
+            self.game_state = GameState.GAME_OVER
+            
+            
+         
 
 
 
