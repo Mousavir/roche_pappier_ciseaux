@@ -218,8 +218,8 @@ class MyGame(arcade.Window):
        """
        Montrer les scores du joueur et de l'ordinateur
        """
-       arcade.draw_text("Le pointage du jouer est " + str(self.player_score) + ".",50,100,arcade.color.GIANTS_ORANGE, 16)
-       arcade.draw_text("Le pointage de l'ordinateur est " + str(self.computer_score) + ".",600,100,arcade.color.GIANTS_ORANGE, 16)
+       arcade.draw_text("Le pointage du jouer est " + str(self.player_score) + ".",50,70,arcade.color.GIANTS_ORANGE, 16)
+       arcade.draw_text("Le pointage de l'ordinateur est " + str(self.computer_score) + ".",600, 70,arcade.color.GIANTS_ORANGE, 16)
 
 
        if self.game_state == game_state.GameState.ROUND_DONE:
