@@ -69,7 +69,7 @@ class MyGame(arcade.Window):
        # Prenez note que vous devriez attribuer une valeur à tous les attributs créés dans __init__
 
        self.game_state = game_state.GameState.ROUND_ACTIVE
-       self.player = arcade.Sprite("Assets/faceBeard.png")
+       self.player = arcade.Sprite("Assets/faceBeard.png", 0.25)
        self.player.center_x = 250
        self.player.center_y = 350
 
@@ -96,6 +96,8 @@ class MyGame(arcade.Window):
 
        self.player_score = 0
        self.computer_score = 0
+
+
        self.player_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
        self.computer_attack_type = {AttackType.ROCK: False, AttackType.PAPER: False, AttackType.SCISSORS: False}
 
@@ -124,36 +126,41 @@ class MyGame(arcade.Window):
        Rappel: après avoir validé la victoire, il faut changer l'état de jeu
        """
 
-       if game_state.GameState.ROUND_ACTIVE:
-           if self.player_attack_type == AttackType.ROCK:
-               if self.computer_attack_type == AttackType.ROCK:
-                   self.computer_score +=1
-               if self.computer_attack_type == AttackType.PAPER or AttackType.SCISSORS:
-                   self.player_won_round = True
-                   self.player_score +=1
+       #if game_state == GameState.ROUND_ACTIVE:
 
-           if self.player_attack_type == AttackType.PAPER:
-               if self.computer_attack_type == AttackType.PAPER:
-                   self.computer_score += 1
+       if self.player_attack_type == AttackType.ROCK:
+           if self.computer_attack_type == AttackType.ROCK:
+               self.computer_score +=1
 
-               if self.computer_attack_type == AttackType.ROCK:
-                   self.player_won_round = True
-                   self.player_score += 1
+           if self.computer_attack_type == AttackType.PAPER or AttackType.SCISSORS:
+               self.player_won_round = True
+               self.player_score +=1
 
-               if self.computer_attack_type == AttackType.SCISSORS:
-                   self.computer_score +=1
 
-           if self.player_attack_type == AttackType.SCISSORS:
+       if self.player_attack_type == AttackType.PAPER:
+           if self.computer_attack_type == AttackType.PAPER:
+               self.computer_score += 1
 
-               if self.computer_attack_type == AttackType.SCISSORS:
-                   self.computer_score += 1
+           if self.computer_attack_type == AttackType.ROCK:
+               self.player_won_round = True
+               self.player_score += 1
 
-               if self.computer_attack_type == AttackType.ROCK:
-                   self.computer_score += 1
+           if self.computer_attack_type == AttackType.SCISSORS:
+               self.computer_score +=1
 
-               if self.computer_attack_type == AttackType.PAPER:
-                   self.player_won_round = True
-                   self.player_score += 1
+
+       if self.player_attack_type == AttackType.SCISSORS:
+
+           if self.computer_attack_type == AttackType.SCISSORS:
+               self.computer_score += 1
+
+           if self.computer_attack_type == AttackType.ROCK:
+               self.computer_score += 1
+
+           if self.computer_attack_type == AttackType.PAPER:
+               self.player_won_round = True
+               self.player_score += 1
+
 
 
 
@@ -165,7 +172,7 @@ class MyGame(arcade.Window):
        (si aucune attaque n'a été sélectionnée, il faut dessiner les trois possibilités)
        (si une attaque a été sélectionnée, il faut dessiner cette attaque)
        """
-       if self.player_attack_chosen and self.game_state == GameState.ROUND_ACTIVE:
+       if self.player_attack_chosen:
 
 
            if self.player_attack_type == AttackType.ROCK:
@@ -192,22 +199,20 @@ class MyGame(arcade.Window):
        """
        Méthode utilisée pour dessiner les possibilités d'attaque de l'ordinateur
        """
-       if (self.player_attack_chosen) and self.game_state == GameState.ROUND_ACTIVE:
-           if self.computer_attack_type == AttackType.ROCK:
-
-               self.computer_rock.draw()
-
-           elif self.computer_attack_type == AttackType.PAPER:
-               self.computer_paper.draw()
-
-           elif self.computer_attack_type == AttackType.SCISSORS:
-               self.computer_scissors.draw()
-
-       if not (self.player_attack_chosen) and game_state.GameState.ROUND_ACTIVE:
+       #if (self.player_attack_chosen):
+       if self.computer_attack_type == AttackType.ROCK:
 
            self.computer_rock.draw()
+
+       elif self.computer_attack_type == AttackType.PAPER:
            self.computer_paper.draw()
+
+       elif self.computer_attack_type == AttackType.SCISSORS:
            self.computer_scissors.draw()
+
+       #if not (self.player_attack_chosen) and game_state == GameState.ROUND_ACTIVE:
+
+           #self.computer_attack_type.draw()
 
        self.rectangle_outline = (ATTACK_FRAME_WIDTH, ATTACK_FRAME_HEIGHT,)
 
@@ -222,7 +227,7 @@ class MyGame(arcade.Window):
        arcade.draw_text("Le pointage de l'ordinateur est " + str(self.computer_score) + ".",600, 70,arcade.color.GIANTS_ORANGE, 16)
 
 
-       if self.game_state == game_state.GameState.ROUND_DONE:
+       if self.game_state == GameState.ROUND_DONE:
            if self.player_won_round == True:
 
                arcade.draw_text("Vous avez gagné la partie! La partie est terminée!", 300, 160, arcade.color.GIANTS_ORANGE, 16)
@@ -237,10 +242,10 @@ class MyGame(arcade.Window):
        """
 
 
-       if self.game_state == game_state.GameState.NOT_STARTED:
+       if self.game_state ==GameState.NOT_STARTED:
            arcade.draw_text("Appuyer sur une image pour faire une attaque!",300,140,arcade.color.GIANTS_ORANGE, 16)
 
-       if self.game_state == game_state.GameState.ROUND_DONE:
+       if self.game_state == GameState.ROUND_DONE:
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",300,140, arcade.color.GIANTS_ORANGE, 16)
 
        #le game state qui est game over est definit dans la methode on_update() d'apres qui a gagne
@@ -300,8 +305,9 @@ class MyGame(arcade.Window):
 
            self.validate_victory()
 
-       if self.game_state == GameState.ROUND_DONE:
-            self.reset_round()
+
+       #if self.game_state == GameState.ROUND_DONE:
+            #self.reset_round()
 
        if self.player_score ==3 or self.computer_score ==3:
             self.game_state = GameState.GAME_OVER
@@ -326,11 +332,11 @@ class MyGame(arcade.Window):
        if (self.game_state == GameState.NOT_STARTED and key == arcade.key.SPACE):
            self.game_state = GameState.ROUND_ACTIVE
 
-       if (self.game_state == game_state.GameState.ROUND_DONE and key == arcade.key.SPACE):
+       if (self.game_state == GameState.ROUND_DONE and key == arcade.key.SPACE):
            self.game_state = GameState.ROUND_ACTIVE
            self.reset_round()
 
-       if (self.game_state == game_state.GameState.GAME_OVER and key == arcade.key.SPACE):
+       if (self.game_state == GameState.GAME_OVER and key == arcade.key.SPACE):
            self.setup()
 
 
