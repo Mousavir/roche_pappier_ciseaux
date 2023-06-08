@@ -82,9 +82,12 @@ class MyGame(arcade.Window):
        self.players = arcade.SpriteList()
        self.players.append(self.player)
        self.players.append(self.computer)
+
        self.rock = AttackAnimation(AttackType.ROCK)
        self.rock.center_x = 90
        self.rock.center_y = 130
+
+
        self.paper = AttackAnimation(AttackType.PAPER)
        self.paper.center_x = 260
        self.paper.center_y = 135
@@ -93,6 +96,18 @@ class MyGame(arcade.Window):
        self.scissors = AttackAnimation(AttackType.SCISSORS)
        self.scissors.center_x =405
        self.scissors.center_y = 135
+
+       self.computer_rock = AttackAnimation(AttackType.ROCK)
+       self.computer_rock.center_x = 700
+       self.computer_rock.center_y = 130
+
+       self.computer_paper = AttackAnimation(AttackType.PAPER)
+       self.computer_paper.center_x = 900
+       self.computer_paper.center_y = 135
+
+       self.computer_scissors = AttackAnimation(AttackType.SCISSORS)
+       self.computer_scissors.center_x = 800
+       self.computer_scissors.center_y = 135
 
        self.player_score = 0
        self.computer_score = 0
