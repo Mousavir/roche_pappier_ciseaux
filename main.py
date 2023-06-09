@@ -9,10 +9,12 @@ import game_state
 
 #import arcade.gui
 
+#appel au fichier attack_animation et game_state et leur contenu
 from attack_animation import AttackType, AttackAnimation
 
 from game_state import GameState
 
+#mesures de l'ecran, des frames, du size du player et du computer
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Roche, papier, ciseaux"
@@ -25,6 +27,7 @@ COMPUTER_IMAGE_Y = SCREEN_HEIGHT / 2.5
 ATTACK_FRAME_WIDTH = 154 / 2
 ATTACK_FRAME_HEIGHT = 154 / 2
 
+#la classe prinicpale du jeu roche papier sciseaux qui contient tout les etapes, validation, animations du jeu roche papier scisseaux
 class MyGame(arcade.Window):
    """
    La classe principale de l'application
@@ -35,7 +38,7 @@ class MyGame(arcade.Window):
 
 
 
-
+    #creer les variable du jeu
    def __init__(self, width, height, title):
        super().__init__(width, height, title)
 
@@ -63,6 +66,7 @@ class MyGame(arcade.Window):
 #fonction en maine pour les objects statiques
    #1)dessiner les photos sprtes
 
+    #definir les variables crer en init et donner les coordones des sprites
    def setup(self):
        """
        Configurer les variables de votre jeu ici. Il faut appeler la méthode une nouvelle
@@ -128,7 +132,7 @@ class MyGame(arcade.Window):
 
 
 
-
+#valider la victoire, donc dans chaque jeu entre le player et l'ordinateur  verifier qui gagne d'après les attack type du player et de l'ordinateur. egalement augmenter la score base sur les regeles du jeu
    def validate_victory(self):
        """
        Utilisé pour déterminer qui obtient la victoire (ou s'il y a égalité)
@@ -175,9 +179,10 @@ class MyGame(arcade.Window):
 
 
 
-
+        #chnger l'état de jeu a round done
        self.game_state = GameState.ROUND_DONE
 
+#dessiner le ou les sprites du attack type du player dependament de si le player a choisit une attack et y dessiner les frames
    def draw_possible_attack(self):
        """
        Méthode utilisée pour dessiner toutes les possibilités d'attaque du joueur
@@ -212,7 +217,7 @@ class MyGame(arcade.Window):
 
 
 
-
+#dessiner l'attack de l'ordinateur qui se fait au hasard dans la methode on_update() si le player a choisit une attack. egalement dessiner le frame du attack de l'ordinateur
    def draw_computer_attack(self):
        """
        Méthode utilisée pour dessiner les possibilités d'attaque de l'ordinateur
@@ -231,18 +236,17 @@ class MyGame(arcade.Window):
 
                self.computer_scissors.draw()
 
-           #if not (self.player_attack_chosen) and game_state == GameState.ROUND_ACTIVE:
 
-               #self.computer_attack_type.draw()
-
+           arcade.draw_rectangle_outline(650, 135, ATTACK_FRAME_WIDTH, ATTACK_FRAME_HEIGHT, arcade.color.RED)
 
 
-
+#dessiner le pointage de l'ordinateur et du joueur. le score chnage egalement d'après la methode validate victory
+#dessiner egalement celui qui a gange la partie (ordinateur, player ou egalite)
    def draw_scores(self):
        """
        Montrer les scores du joueur et de l'ordinateur
        """
-       arcade.draw_text("Le pointage du jouer est " + str(self.player_score) + ".",50,70,arcade.color.GIANTS_ORANGE, 16)
+       arcade.draw_text("Le pointage du joueur est " + str(self.player_score) + ".",50,70,arcade.color.GIANTS_ORANGE, 16)
        arcade.draw_text("Le pointage de l'ordinateur est " + str(self.computer_score) + ".",600, 70,arcade.color.GIANTS_ORANGE, 16)
 
 
@@ -257,7 +261,7 @@ class MyGame(arcade.Window):
                arcade.draw_text("L'ordinateur a gagné la partie!", 280,470, arcade.color.PURPLE, 16)
 
 
-
+#afficher les instructions pour orienter le jouer pour quoi faire dependament de l'état du jeu
    def draw_instructions(self):
        """
        Dépendemment de l'état de jeu, afficher les instructions d'utilisation au joueur (appuyer sur espace, ou sur une image)
@@ -271,6 +275,8 @@ class MyGame(arcade.Window):
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer une nouvelle ronde!",280,445, arcade.color.PURPLE, 16)
 
        #le game state qui est game over est definit dans la methode on_update() d'apres qui a gagne
+
+       #si le jeu est terminer dessiner celui qui a gagne le jeu d'après celui qui a le score de 3 et egalement instructer sur comment proceder pour jouer un nouveau jeu
        elif self.game_state == game_state.GameState.GAME_OVER:
            if self.player_score ==3:
                arcade.draw_text("Vous avez gagné le jeu!",280,470, arcade.color.PURPLE, 16)
@@ -281,7 +287,7 @@ class MyGame(arcade.Window):
            arcade.draw_text("Appuyer sur 'ESPACE' pour commencer un nouveau jeu!", 280,445, arcade.color.PURPLE, 16)
 
 
-
+#methode on_draw() qui permet de preparer l'ecran pour les dessinset qui permet de dessiner le screen title et les autres methodes de dessinage definit plus haut
    def on_draw(self): #s'assurer ont est dans quelle état de jeu if game_state = round...
        """
        C'est la méthode que Arcade invoque à chaque "frame" pour afficher les éléments
@@ -305,7 +311,9 @@ class MyGame(arcade.Window):
        #afficher le résultat de la partie si l'ordinateur a joué (ROUND_DONE)
 
 
-
+#methode on_update() qui permet de update les sprite si aucun attack a été choisit et qu'on est dans un etat de jeu active
+#methode on update() qui permet egalement de definir le sprite attack type de l'ordinateur au hasard dependament de si le joueur a choisit une attack
+   #valider egalement la victoire  et chnager l'état de jeu a game over d'après si l'ordinateur ou le player a atteint un score de 3
    def on_update(self, delta_time):
        """
        Toute la logique pour déplacer les objets de votre jeu et de
@@ -347,7 +355,7 @@ class MyGame(arcade.Window):
 
 
 
-
+#si le clavier boutton espace est pese et dependament de l'état de danslequel on est changer l'état de jeu ou remmetre le jeu a neuf avec les variable de depart
    def on_key_press(self, key, key_modifiers):
        """
        Cette méthode est invoquée à chaque fois que l'usager tape une touche
@@ -370,7 +378,7 @@ class MyGame(arcade.Window):
            self.setup()
 
 
-
+#methode qui permet de remetre les variables chnageable dans le jeu a leur etat initial
 
    def reset_round(self):
        """
@@ -383,7 +391,7 @@ class MyGame(arcade.Window):
        self.draw_round = False
 
 
-
+#methode qui permet de determiner si il y a une colision entre le boutton du souris et un sprite. Ceci permet de determiner le attack type que choisit (attack_chosen) le player
    def on_mouse_press(self, x, y, button, key_modifiers): #sprite
        """
        Méthode invoquée lorsque l'usager clique un bouton de la souris.
@@ -416,13 +424,13 @@ class MyGame(arcade.Window):
        # Rappel que si le joueur choisi une attaque, self.player_attack_chosen = True
 
 
-
+#fonction main pour executer le jeu mygame lors de son appel
 def main():
    """ Main method """
    game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
    game.setup()
    arcade.run()
 
-
+#appel au fonction main
 if __name__ == "__main__":
    main()
